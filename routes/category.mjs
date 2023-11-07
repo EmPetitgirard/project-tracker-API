@@ -25,11 +25,32 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   let newDocument = {
     title: req.body.title,
-    uuid: req.body.uuid,
+    color: req.body.color,
   };
   let collection = await db.collection("categories");
   let result = await collection.insertOne(newDocument);
   res.send(result).status(204);
+});
+
+// This section will help you update a record by id.
+router.patch("/:id", async (req, res) => {
+  try {
+    const query = { _id: new ObjectId(req.params.id) };
+    const updates =  
+    {
+      $set: {
+        title: req.body.title,
+      }
+    };
+
+    let collection = await db.collection("categories");
+    let result = await collection.updateOne(query, updates);
+
+    res.send(result).status(200);
+  } catch(error) {
+    console.log('Error while updating object id ' + req.params.id);
+    res.send("Not found").status(404);
+  }
 });
 
 // This section will help you delete a category
