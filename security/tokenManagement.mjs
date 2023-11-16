@@ -30,7 +30,7 @@ export function authenticateToken(req, res, next) {
         if (err) {
           res.send("Error verifying").status(403);
         } else {
-          const roles = auth.authorization["zn5p5xvb"].roles;
+          const roles = auth.authorization[process.env.USERFRONT_PROJECT_ID].roles;
           if (!roles.includes("admin")) {
             res.send("Unauthorized").status(401);
           } else {
